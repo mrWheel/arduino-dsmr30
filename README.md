@@ -1,5 +1,27 @@
 Arduino Dutch Smart meter (DSMR 3.0) parser
 ===========================================
+This library is a ugly patched verion of the original and brilliant
+library by [Matthijs Kooijman](https://github.com/matthijskooijman/arduino-dsmr)
+and the fork from that by [Maarten Fremouw](https://github.com/fremouw/arduino-dsmr).
+
+Maarten made two branches (<b>optional-checksum</b> and <b>dsmr30-gas-field</b>). 
+
+What I did was clone the repository of Maarten and then
+merge the master branche with the two before mentioned branches.
+
+I renamed the repository and all the files with "30" at the end 
+(dsmr -> dsmr30, parser.h -> parser30.h, reader.h -> reader30.h) so this patched
+version (<b>dsmr30</b>) can coexist with the original <b>dsmr</b> library.
+
+In this version of the library the file
+<b>parser30.h</b> is hacked to completely disable checksum checking. 
+This should have been done by a professional as I have no clue of C++11!
+
+Anyway: all the software-engeneering is done by Matthijs and Maarten who
+desurve all the credit!
+
+ORIGINAL README BELOW THIS LINE
+==============================================================
 This is an Arduino library for interfacing with Dutch smart meters, through
 their P1 port. This library can take care of controlling the "request" pin,
 reading messages and parsing them.
@@ -20,12 +42,10 @@ be used in smart meters starting in 2016. This code should support both
 the 4.x and 5.0 specifications. 3.x meters might also work, but this has
 not been verified or tested (feedback welcome).
 
-===>>>> this Library only supports DSMR 3.0 <<<<===
-
 The DSMR specifications can be found on [the site of Netbeheer
 Nederland][netbeheer]. Of particualr interest is the "P1 companion
-standard" that specifies the P1 port (here's some useful
-versions: [3.0](http://www.netbeheernederland.nl/publicaties/publicatie/?documentregistrationid=1747168),
+standard" that specifies the P1 port (here's some useful info for
+version: [3.0](http://www.netbeheernederland.nl/publicaties/publicatie/?documentregistrationid=1747168)),
 
 [netbeheer]: http://www.netbeheernederland.nl
 
