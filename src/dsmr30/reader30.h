@@ -69,7 +69,7 @@ class P1Reader {
      * output, the Stream is assumed to be already set up (e.g. baud
      * rate configured).
      */
-    P1Reader(Stream *stream, uint8_t req_pin)
+    P1Reader(Stream *stream, uint8_t req_pin, bool checkSum = true)
       : stream(stream), req_pin(req_pin), once(false), state(State::DISABLED_STATE) {
       pinMode(req_pin, OUTPUT);
       digitalWrite(req_pin, LOW);
@@ -121,19 +121,17 @@ class P1Reader {
         if (state == State::CHECKSUM_STATE) {
           // Let the Stream buffer the CRC bytes. Convert to size_t to
           // prevent unsigned vs signed comparison
-          if ((size_t)this->stream->available() < CrcParser::CRC_LEN)
-            return false;
-
+  //AaW   if ((size_t)this->stream->available() < CrcParser::CRC_LEN)
+	//AaW       return false;
           char buf[CrcParser::CRC_LEN];
           for (uint8_t i = 0; i < CrcParser::CRC_LEN; ++i)
             buf[i] = this->stream->read();
 
           ParseResult<uint16_t> crc = CrcParser::parse(buf, buf + lengthof(buf));
-
           // Prepare for next message
           state = State::WAITING_STATE;
 
-          if (!crc.err && crc.result == this->crc) {
+  //AaW   if (!crc.err && crc.result == this->crc) {
             // Message complete, checksum correct
             this->_available = true;
 
@@ -141,7 +139,7 @@ class P1Reader {
              this->disable();
 
             return true;
-          }
+  //AaW   }
         } else {
           // For other states, read bytes one by one
           int c = this->stream->read();
